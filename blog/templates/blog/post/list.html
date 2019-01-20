@@ -1,0 +1,29 @@
+{% extends "blog/base.html" %}
+
+{% block title %}
+Tianfei's Blog
+{% endblock %}
+
+{% block content %}
+    <h1>我的Blog</h1>
+    {% for post in posts %}
+        <h2>
+            <a href="{{ post.get_absolute_url }}">
+                {{ post.title }}
+            </a>
+        </h2>
+        <p class="date">
+            Published {{ post.publish }} by {{ post.author }}
+        </p>
+        {{ post.body|truncatechars:60|linebreaks }}
+    {% endfor %}
+
+    {% include "pagination.html" with page=page_obj%}
+
+    <span>
+        <p>
+            page 孤儿 值是{{ paginator.orphans }}
+        </p>
+    </span>
+
+{% endblock %}
