@@ -1,0 +1,46 @@
+{% extends "blog/base.html" %}
+
+{% block title %}
+Tianfei's Blog
+{% endblock %}
+
+{% block content %}
+    <h1>我的Blog post list old</h1>
+    {% for post in posts %}
+        <p>
+            {% if tag %}
+                <h3>Posts tagged with {{ tag.name }}</h3>
+            {% endif %}
+        </p>
+        <h2>
+            <a href="{{ post.get_absolute_url }}">
+                {{ post.title }}
+            </a>
+        </h2>
+
+        <!-- <p class="tags">
+            Tags: {{ post.tags.all|join:", " }}
+        </p>
+        -->
+        <p class="tags">
+        Tags:
+            {% for p_tag in post.tags.all %}
+                <a href="{% url "blog:post_list_by_tag" p_tag.slug %}">{{ p_tag.name }}</a>
+            {% endfor %}
+            {% if not forloop.last %}{% endif %}
+        </p>
+        <p class="date">
+            Published {{ post.publish }} by {{ post.author }}
+        </p>
+        {{ post.body|truncatechars:60|linebreaks }}
+    {% endfor %}
+
+    {% include "pagination.html" with page=posts %}
+
+    <span>
+        <p>
+            page 孤儿 值是{{ page.orphans }}
+        </p>
+    </span>
+
+{% endblock %}
